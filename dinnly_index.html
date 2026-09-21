@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f7c8d8">
+<title>Dinnly ♡</title>
+<style>
+:root{--pink:#f7c8d8;--cream:#fffaf4;--green:#b9d5c3;--ink:#403941}
+*{box-sizing:border-box}body{margin:0;background:var(--cream);color:var(--ink);font-family:system-ui,sans-serif}
+main{max-width:720px;margin:auto;padding:22px 16px 45px}.brand{display:flex;gap:12px;align-items:center}
+.mascot{font-size:42px}.brand h1{margin:0;font-size:34px}.sub{color:#777;margin-bottom:22px}
+.card{background:white;border:2px solid #f1e2df;border-radius:24px;padding:18px;margin:14px 0;box-shadow:0 5px 0 #f1e5df}
+h2{margin:0 0 14px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+label{font-size:13px;font-weight:700;display:block;margin-bottom:5px}
+input,select,button{width:100%;padding:12px;border:1px solid #ded1cf;border-radius:14px;font:inherit}
+button{border:0;background:var(--pink);font-weight:800;margin-top:14px}.hidden{display:none}
+.meal{padding:12px;border:1px solid #eadedb;border-radius:16px;margin:10px 0}
+.meal strong{display:block;font-size:16px}.meal small{color:#777}
+.check{display:flex;gap:9px;align-items:center;margin:8px 0}.check input{width:auto}
+.notice{padding:11px;border-radius:14px;background:#fff2c9;font-size:13px}
+@media(max-width:480px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body><main>
+<header class="brand"><div class="mascot">🐰</div><div><h1>Dinnly ♡</h1><div class="sub">Cozy dinners, less stress.</div></div></header>
+
+<section class="card">
+<h2>♡ Your dinner setup</h2>
+<div class="grid">
+<div><label>People</label><select id="people"><option>2</option><option selected>4</option><option>5</option><option>6</option></select></div>
+<div><label>Weekly budget ($)</label><input id="budget" type="number" value="100"></div>
+<div><label>Store</label><select id="store"><option selected>Aldi</option><option>Walmart</option><option>Other</option></select></div>
+<div><label>Priority</label><select id="priority"><option selected>High protein</option><option>Balanced</option><option>Budget friendly</option></select></div>
+</div>
+<label style="margin-top:12px">Ingredients you already have</label>
+<input id="pantry" placeholder="chicken, rice, carrots...">
+<button onclick="makePlan()">✨ Make my dinner plan</button>
+</section>
+
+<section id="plan" class="card hidden">
+<h2>♡ Your dinner plan</h2>
+<div class="notice">Starter demo plan. A secure AI connection can be added after this file is published.</div>
+<div id="meals"></div>
+</section>
+
+<section id="groceries" class="card hidden">
+<h2>♡ Grocery list</h2><div id="items"></div>
+</section>
+</main>
+<script>
+const meals=[
+["Creamy Chicken & Rice Skillet","Chicken, rice, carrots, onion","High protein"],
+["Turkey Taco Bowls","Ground turkey, rice, beans, lettuce","High protein"],
+["Garlic Butter Pork Dumplings","Pork dumplings, cabbage, carrots","Quick"],
+["Cheesy Chicken Broccoli Pasta","Chicken, pasta, broccoli, cheese","Family friendly"],
+["Sheet-Pan Sausage & Veggies","Sausage, potatoes, peppers, onion","Easy cleanup"],
+["Egg Roll in a Bowl","Ground meat, cabbage, carrots, soy sauce","Budget friendly"],
+["Loaded Baked Potatoes","Potatoes, cheese, green onion","Flexible leftovers"]
+];
+const ingredients=["chicken","rice","carrots","onion","ground turkey","beans","lettuce","pork dumplings","cabbage","broccoli","pasta","cheese","sausage","potatoes","peppers","ground meat","soy sauce","green onion"];
+function makePlan(){
+ const pantry=document.getElementById("pantry").value.toLowerCase();
+ document.getElementById("plan").classList.remove("hidden");
+ document.getElementById("groceries").classList.remove("hidden");
+ document.getElementById("meals").innerHTML=meals.map((m,i)=>`<div class="meal"><strong>${i+1}. ${m[0]}</strong><small>${m[2]}</small><div>${m[1]}</div></div>`).join("");
+ document.getElementById("items").innerHTML=[...new Set(ingredients.filter(x=>!pantry.includes(x)))].map(x=>`<label class="check"><input type="checkbox"> ${x}</label>`).join("");
+}
+</script>
+</body>
+</html>
